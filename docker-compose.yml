@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  frontend-etg:
+    build: ./frontend
+    container_name: frontend-etg
+    ports:
+      - "3005:3005"
+    volumes:
+      - "/app/node_modules"
+      - "./frontend:/app"
+    environment:
+      - VITE_PORT=3005
+    stdin_open: true
+    tty: true
+
+  backend-etg:
+    build: ./backend
+    container_name: backend-etg
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    stdin_open: true
+    tty: true
+
+  db:
+    image: postgres:17.2
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
