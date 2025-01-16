@@ -10,6 +10,8 @@ services:
       - "./frontend:/app"
     environment:
       - VITE_PORT=3005
+    depends_on:
+      - backend-etg
     stdin_open: true
     tty: true
 
@@ -23,7 +25,9 @@ services:
     depends_on:
       - db
     volumes:
-      - ./backend:/app
+      - "./backend:/app"
+      - "/app/node_modules"
+
     stdin_open: true
     tty: true
 
