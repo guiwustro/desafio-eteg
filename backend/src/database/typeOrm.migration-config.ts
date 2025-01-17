@@ -15,9 +15,9 @@ const dataSourceOptions: DataSourceOptions & SeederOptions = {
   username: configService.get<string>('DB_USER'),
   password: configService.get<string>('DB_PASSWORD'),
   database: configService.get<string>('DB_DATABASE'),
-  entities: [join(resolve(__dirname, '..'), '**', 'entities', '*.ts')],
-  migrations: [__dirname + '/migrations/*.ts'],
-  seeds: [__dirname + '/seeds/*.ts'],
+  entities: [join(resolve(__dirname, '..'), '**', 'entities', '*.{js,ts}')],
+  migrations: [__dirname + '/migrations/*.{js,ts}'],
+  seeds: [__dirname + '/seeds/*.{js,ts}'],
 };
 
 export default new DataSource(dataSourceOptions);

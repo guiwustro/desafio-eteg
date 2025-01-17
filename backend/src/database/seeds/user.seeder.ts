@@ -23,20 +23,16 @@ export default class UserSeeder implements Seeder {
     }
 
     if (!email || !password) {
-      throw new Error(
-        'Variáveis ADMIN_EMAIL e ADMIN_PASSWORD devem estar definidas no .env',
-      );
+      throw new Error('ADMIN_EMAIL and ADMIN_PASSWORD are required at .env');
     }
-    console.log('password', password);
 
     const hashedPassword = await bcrypt.hash(password.toString(), 10);
-    console.log('password', hashedPassword);
 
     await repository.insert({
       email: email,
       password: hashedPassword,
     });
 
-    console.log(`Usuário admin (${email}) criado com sucesso!`);
+    console.log(`User admin (${email}) created succesfuly!`);
   }
 }
