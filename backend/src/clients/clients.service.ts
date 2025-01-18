@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { InvitesService } from '../invites/invites.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { Client } from './entities/client.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { InvitesService } from '@/invites/invites.service';
 
 @Injectable()
 export class ClientsService {
@@ -15,15 +15,7 @@ export class ClientsService {
   ) {}
 
   async create(createClientDto: CreateClientDto) {
-    const emailAlreadyExists = await this.findByEmail(createClientDto.email);
-    if (emailAlreadyExists) {
-      throw new HttpException('Email already exists.', HttpStatus.BAD_REQUEST);
-    }
-
-    const cpfAlreadyExists = await this.findByCpf(createClientDto.cpf);
-    if (cpfAlreadyExists) {
-      throw new HttpException('CPF already exists.', HttpStatus.BAD_REQUEST);
-    }
+    await this.validateUniqueFields(createClientDto);
 
     const client = await this.clientRepository.save(createClientDto);
     return client;
@@ -32,15 +24,7 @@ export class ClientsService {
   async createByInvite(id: string, createClientDto: CreateClientDto) {
     await this.inviteService.checkInviteAndAddUseToInvite(id);
 
-    const emailAlreadyExists = await this.findByEmail(createClientDto.email);
-    if (emailAlreadyExists) {
-      throw new HttpException('Email already exists.', HttpStatus.BAD_REQUEST);
-    }
-
-    const cpfAlreadyExists = await this.findByCpf(createClientDto.cpf);
-    if (cpfAlreadyExists) {
-      throw new HttpException('CPF already exists.', HttpStatus.BAD_REQUEST);
-    }
+    await this.validateUniqueFields(createClientDto);
 
     const client = await this.clientRepository.save(createClientDto);
     return client;
@@ -89,22 +73,11 @@ export class ClientsService {
   async update(id: number, updateClientDto: UpdateClientDto) {
     const client = await this.findOne(id);
 
-    if (updateClientDto?.email) {
-      const emailAlreadyExists = await this.findByEmail(updateClientDto.email);
-      if (emailAlreadyExists && emailAlreadyExists.id !== id) {
-        throw new HttpException(
-          'Email already exists.',
-          HttpStatus.BAD_REQUEST,
-        );
-      }
+    if (!client) {
+      throw new HttpException('Client not found.', HttpStatus.NOT_FOUND);
     }
 
-    if (updateClientDto?.cpf) {
-      const cpfAlreadyExists = await this.findByCpf(updateClientDto.cpf);
-      if (cpfAlreadyExists && cpfAlreadyExists.id !== id) {
-        throw new HttpException('CPF already exists.', HttpStatus.BAD_REQUEST);
-      }
-    }
+    await this.validateUniqueFields(updateClientDto, id);
 
     await this.clientRepository.update(id, updateClientDto);
 
@@ -120,5 +93,27 @@ export class ClientsService {
     await this.clientRepository.delete(id);
 
     return { message: `Client ${client.name} removed successfully.` };
+  }
+
+  private async validateUniqueFields(
+    clientDto: Partial<CreateClientDto>,
+    id?: number,
+  ): Promise<void> {
+    if (clientDto?.email) {
+      const emailAlreadyExists = await this.findByEmail(clientDto.email);
+      if (emailAlreadyExists && emailAlreadyExists.id !== id) {
+        throw new HttpException(
+          'Email already exists.',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    }
+
+    if (clientDto?.cpf) {
+      const cpfAlreadyExists = await this.findByCpf(clientDto.cpf);
+      if (cpfAlreadyExists && cpfAlreadyExists.id !== id) {
+        throw new HttpException('CPF already exists.', HttpStatus.BAD_REQUEST);
+      }
+    }
   }
 }

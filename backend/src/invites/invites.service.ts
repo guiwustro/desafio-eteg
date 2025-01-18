@@ -59,18 +59,8 @@ export class InvitesService {
       throw new HttpException('Invite not found.', HttpStatus.NOT_FOUND);
     }
 
-    if (invite.expirationDate && new Date() > new Date(invite.expirationDate)) {
-      throw new HttpException(
-        'The invitation has expired.',
-        HttpStatus.CONFLICT,
-      );
-    }
-    if (invite.currentUses === invite.maxUses) {
-      throw new HttpException(
-        'The invitation has reached its maximum usage.',
-        HttpStatus.CONFLICT,
-      );
-    }
+    this.checkIfExpired(invite.expirationDate);
+    this.checkIfMaxUsesReached(invite.currentUses, invite.maxUses);
 
     return invite;
   }
@@ -84,5 +74,23 @@ export class InvitesService {
     await this.inviteRepository.delete(id);
 
     return { message: `Invite ${invite.id} removed successfully.` };
+  }
+
+  private checkIfExpired(expirationDate?: Date) {
+    if (expirationDate && new Date() > new Date(expirationDate)) {
+      throw new HttpException(
+        'The invitation has expired.',
+        HttpStatus.CONFLICT,
+      );
+    }
+  }
+
+  private checkIfMaxUsesReached(currentUses: number, maxUses: number) {
+    if (maxUses && currentUses >= maxUses) {
+      throw new HttpException(
+        'The invitation has reached its maximum usage.',
+        HttpStatus.CONFLICT,
+      );
+    }
   }
 }

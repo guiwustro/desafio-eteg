@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
-import { User } from '@/users/entities/user.entity';
+import { User } from '../../users/entities/user.entity';
 
 config();
 
