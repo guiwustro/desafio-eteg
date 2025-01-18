@@ -36,7 +36,7 @@ describe('ClientsService', () => {
   });
 
   describe('create', () => {
-    it('should throw an error if email already exists', async () => {
+    it('should throw an error if Este email já está registrado', async () => {
       jest.spyOn(service, 'findByEmail').mockResolvedValue({ id: 1 } as Client);
 
       const dto: CreateClientDto = {
@@ -48,7 +48,10 @@ describe('ClientsService', () => {
       };
 
       await expect(service.create(dto)).rejects.toThrow(
-        new HttpException('Email already exists.', HttpStatus.BAD_REQUEST),
+        new HttpException(
+          'Este email já está registrado.',
+          HttpStatus.BAD_REQUEST,
+        ),
       );
     });
 

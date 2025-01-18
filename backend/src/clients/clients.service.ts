@@ -103,7 +103,7 @@ export class ClientsService {
       const emailAlreadyExists = await this.findByEmail(clientDto.email);
       if (emailAlreadyExists && emailAlreadyExists.id !== id) {
         throw new HttpException(
-          'Email already exists.',
+          'Este email já está registrado.',
           HttpStatus.BAD_REQUEST,
         );
       }
@@ -112,7 +112,10 @@ export class ClientsService {
     if (clientDto?.cpf) {
       const cpfAlreadyExists = await this.findByCpf(clientDto.cpf);
       if (cpfAlreadyExists && cpfAlreadyExists.id !== id) {
-        throw new HttpException('CPF already exists.', HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          'Este CPF já está registrado.',
+          HttpStatus.BAD_REQUEST,
+        );
       }
     }
   }

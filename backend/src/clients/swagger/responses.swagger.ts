@@ -22,7 +22,7 @@ export const SwaggerResponses = {
 
   cpfAlreadyExists: {
     status: 403,
-    description: 'CPF already exists',
+    description: 'CPF already exists.',
     type: BadRequestSwaggerCPFAlreadyExists,
   } as ApiResponseOptions,
 

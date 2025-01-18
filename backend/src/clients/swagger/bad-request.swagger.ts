@@ -19,7 +19,7 @@ export class BadRequestSwaggerEmailAlreadyExists {
   statusCode: number;
 
   @ApiProperty({
-    example: 'E-mail already exists.',
+    example: 'Este e-mail já está registrado.',
   })
   message: string;
 }
@@ -31,7 +31,7 @@ export class BadRequestSwaggerCPFAlreadyExists {
   statusCode: number;
 
   @ApiProperty({
-    example: 'CPF already exists.',
+    example: 'Este CPF já está registrado.',
   })
   message: string;
 }
