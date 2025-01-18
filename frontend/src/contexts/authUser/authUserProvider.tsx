@@ -19,10 +19,8 @@ const AuthUserProvider = ({ children }: IAuthUserProps) => {
 
 		login(data)
 			.then((res) => {
-				window.localStorage.setItem("@desafio-eteg-token", res.data.token);
-				api.defaults.headers.common[
-					"Authorization"
-				] = `Bearer ${res.data.token}`;
+				window.localStorage.setItem("@desafio-eteg-token", res.token);
+				api.defaults.headers.common["Authorization"] = `Bearer ${res.token}`;
 
 				setIsLoading(false);
 

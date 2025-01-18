@@ -1,4 +1,4 @@
-import FormErrorMessage from "@/components/custom/FormErrorMessage";
+import FormGroup from "@/components/custom/FormGroup";
 import { Button } from "@/components/ui/button";
 import { useAuthUserContext } from "@/contexts/authUser/useAuthUser";
 import { LoginFormInputs, loginSchema } from "@/schemas/loginSchema";
@@ -26,37 +26,21 @@ export const FormLogin = () => {
 				Login
 			</h2>
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<div className="mb-4">
-					<label className="block text-sm font-medium text-textPrimary">
-						Email
-					</label>
-					<input
-						type="email"
-						{...register("email")}
-						className={`mt-1 w-full rounded-md border px-3 py-2 text-textPrimary focus:outline-none ${
-							errors.email
-								? "border-red-500"
-								: "border-border focus:border-primary"
-						}`}
-					/>
-					<FormErrorMessage message={errors.email?.message} />
-				</div>
+				<FormGroup
+					label="Email"
+					type="email"
+					register={register}
+					registerName="email"
+					messageError={errors.email?.message}
+				/>
 
-				<div className="mb-4">
-					<label className="block text-sm font-medium text-textPrimary">
-						Senha
-					</label>
-					<input
-						type="password"
-						{...register("password")}
-						className={`mt-1 w-full rounded-md border px-3 py-2 text-textPrimary focus:outline-none ${
-							errors.password
-								? "border-red-500"
-								: "border-border focus:border-primary"
-						}`}
-					/>
-					<FormErrorMessage message={errors.password?.message} />
-				</div>
+				<FormGroup
+					label="Senha"
+					type="password"
+					register={register}
+					registerName="password"
+					messageError={errors.password?.message}
+				/>
 
 				<Button
 					type="submit"

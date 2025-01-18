@@ -65,7 +65,7 @@ const colourStyles: StylesConfig<ColorOption> = {
 			},
 		};
 	},
-	input: (styles) => ({ ...styles, ...dot() }),
+	input: (styles) => ({ ...styles, ...dot(), padding: 4 }),
 	placeholder: (styles) => ({ ...styles, ...dot("#ccc") }),
 	singleValue: (styles, { data }) => ({ ...styles, ...dot(data.value) }),
 };

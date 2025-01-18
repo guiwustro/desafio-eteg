@@ -9,7 +9,7 @@ const FormErrorMessage: React.FC<IFormErrorMessageProps> = ({
 }) => {
 	if (!message) return <></>;
 
-	return <p className={`text-red-600 text-xs ${className}`}>{message}</p>;
+	return <p className={`text-red-600 text-xs mt-1 ${className}`}>{message}</p>;
 };
 
 export default FormErrorMessage;

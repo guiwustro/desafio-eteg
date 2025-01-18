@@ -12,7 +12,7 @@ export const getInvites = async (): Promise<Invite[]> => {
 	return response.data;
 };
 
-export const getInvite = async (id: string): Promise<Invite> => {
-	const response = await api.get(`/invites/${id}`);
+export const getInviteCheck = async (id: string): Promise<Invite> => {
+	const response = await api.get(`/invites/${id}/check`);
 	return response.data;
 };

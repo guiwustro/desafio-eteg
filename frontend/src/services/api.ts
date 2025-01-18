@@ -12,12 +12,3 @@ api.interceptors.request.use(async (request) => {
 	}
 	return request;
 });
-
-api.interceptors.response.use(
-	(response) => {
-		return response;
-	},
-	(error) => {
-		console.log(`error`, error);
-	}
-);

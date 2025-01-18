@@ -22,14 +22,14 @@ export const DialogRemoveClient = ({
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button variant="destructive">Remover</Button>
+				<Button variant="destructive" className="px-3 py-1">
+					Remover
+				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle className="text-textPrimary">
-						Confirmação de Exclusão
-					</DialogTitle>
-					<DialogDescription className="text-textSecondary">
+					<DialogTitle>Confirmação de Exclusão</DialogTitle>
+					<DialogDescription className="text-textPrimary">
 						Esta ação é irreversível. Você tem certeza de que deseja excluir o
 						cliente {client.name}?
 					</DialogDescription>

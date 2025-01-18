@@ -1,28 +1,15 @@
-import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import InputMask from "react-input-mask";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import InputMask from "react-input-mask";
 
-import FormErrorMessage from "../FormErrorMessage";
 import { Button } from "@/components/ui/button";
-import { CustomSelect } from "../CustomSelect";
-import { cpfValidator } from "@/utils/cpfValidator";
 import { colorOptions } from "@/constants/colorOptions";
+import { clientSchema, TClientSchema } from "@/schemas/clientSchema";
 import { formatCpf } from "@/utils/formatCpf";
-
-const formSchema = z.object({
-	name: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
-	cpf: z.string().refine((cpf) => cpfValidator(cpf), {
-		message: "CPF inválido",
-	}),
-	email: z.string().email(),
-	color: z.object({ label: z.string(), value: z.string() }),
-	isActive: z.boolean().optional(),
-	observations: z.string().optional(),
-});
-
-type FormData = z.infer<typeof formSchema>;
+import { CustomSelect } from "../CustomSelect";
+import FormErrorMessage from "../FormErrorMessage";
+import FormGroup from "../FormGroup";
 
 interface FormProps {
 	initialData?: Client;
@@ -39,8 +26,8 @@ const FormClient: React.FC<FormProps> = ({
 		setValue,
 		control,
 		formState: { errors },
-	} = useForm<FormData>({
-		resolver: zodResolver(formSchema),
+	} = useForm<TClientSchema>({
+		resolver: zodResolver(clientSchema),
 		defaultValues: {
 			name: initialData?.name || "",
 			email: initialData?.email || "",
@@ -55,7 +42,7 @@ const FormClient: React.FC<FormProps> = ({
 
 	const [status, setStatus] = useState(initialData?.isActive ?? true);
 
-	const onSubmit = (data: FormData) => {
+	const onSubmit = (data: TClientSchema) => {
 		const formattedCpf = data.cpf.replace(/\D/g, "");
 
 		const dataFormatted: CreateClientDto = {
@@ -72,46 +59,37 @@ const FormClient: React.FC<FormProps> = ({
 			onSubmit={handleSubmit(onSubmit)}
 			className="max-w-lg mx-auto bg-white p-6 rounded-md shadow-md border border-gray-200"
 		>
-			{/* Nome */}
-			<div className="mb-4">
-				<label className="block text-[#78849E] font-semibold" htmlFor="name">
-					Nome:
-				</label>
-				<input
-					{...register("name")}
-					id="name"
-					className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1890FF]"
-				/>
-				<FormErrorMessage message={errors.name?.message} />
-			</div>
+			<FormGroup
+				label="Nome"
+				type="text"
+				register={register}
+				registerName="name"
+				messageError={errors.name?.message}
+			/>
+
+			<FormGroup
+				label="Email"
+				type="email"
+				register={register}
+				registerName="email"
+				messageError={errors.name?.message}
+			/>
 
 			<div className="mb-4">
-				<label className="block text-[#78849E] font-semibold" htmlFor="email">
-					Email:
-				</label>
-				<input
-					{...register("email")}
-					id="email"
-					className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1890FF]"
-				/>
-				<FormErrorMessage message={errors.name?.message} />
-			</div>
-
-			<div className="mb-4">
-				<label className="block text-[#78849E] font-semibold" htmlFor="cpf">
+				<label className="text-sm font-medium text-textPrimary" htmlFor="cpf">
 					CPF:
 				</label>
 				<InputMask
 					id="cpf"
 					mask="999.999.999-99"
 					{...register("cpf")}
-					className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1890FF]"
+					className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-primary"
 				/>
 				<FormErrorMessage message={errors.cpf?.message} />
 			</div>
 
 			<div className="mb-4">
-				<label htmlFor="color" className="block text-gray-700">
+				<label htmlFor="color" className="text-sm font-medium text-textPrimary">
 					Cor favorita:
 				</label>
 				<Controller
@@ -122,7 +100,7 @@ const FormClient: React.FC<FormProps> = ({
 					)}
 				/>
 
-				<FormErrorMessage message={errors.color?.message} />
+				<FormErrorMessage message={errors.color?.value?.message} />
 			</div>
 
 			<div className="mb-4">
@@ -131,7 +109,7 @@ const FormClient: React.FC<FormProps> = ({
 				</label>
 				<textarea
 					{...register("observations")}
-					className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1890FF]"
+					className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-primary"
 				/>
 			</div>
 
@@ -146,17 +124,16 @@ const FormClient: React.FC<FormProps> = ({
 								setStatus(!status);
 								setValue("isActive", !status);
 							}}
-							className="h-5 w-5 text-[#1890FF] focus:ring-[#1890FF]"
+							className="h-5 w-5 text-primary focus:ring-primary"
 						/>
 						<span className="ml-2">{status ? "Ativo" : "Inativo"}</span>
 					</label>
 				</div>
 			)}
 
-			{/* Botão de Enviar */}
 			<Button
 				type="submit"
-				className="bg-[#1890FF] hover:bg-[#1073CC] text-white px-4 py-2 rounded-md font-semibold w-full"
+				className="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-md font-semibold w-full"
 			>
 				{initialData ? "Atualizar" : "Criar"}
 			</Button>

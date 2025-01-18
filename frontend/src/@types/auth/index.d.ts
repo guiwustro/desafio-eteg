@@ -4,7 +4,5 @@ interface UserLogin {
 }
 
 interface LoginResponse {
-	data: {
-		token: string;
-	};
+	token: string;
 }
