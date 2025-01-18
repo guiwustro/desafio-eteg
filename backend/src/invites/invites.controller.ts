@@ -18,9 +18,9 @@ export class InvitesController {
   }
 
   @IsPublic()
-  @Get(':id')
+  @Get(':id/check')
   findOne(@Param('id') id: string) {
-    return this.invitesService.findOne(id);
+    return this.invitesService.checkInvite(id);
   }
 
   @Delete(':id')

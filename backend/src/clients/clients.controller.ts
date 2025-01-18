@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 import { IsPublic } from '@/auth/decorators/is-public.decorator';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Controller('clients')
 export class ClientsController {
@@ -31,8 +33,11 @@ export class ClientsController {
   }
 
   @Get()
-  findAll() {
-    return this.clientsService.findAll();
+  getPaginatedClients(@Query() paginationDto: PaginationDto) {
+    return this.clientsService.getPaginatedClients(
+      paginationDto.page,
+      paginationDto.limit,
+    );
   }
 
   @Get(':id')

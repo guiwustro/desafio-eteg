@@ -27,7 +27,7 @@ export class CreateClientDto {
 
   @IsBoolean()
   @IsOptional()
-  is_active: boolean = true;
+  isActive: boolean = true;
 
   @IsString()
   @IsOptional()

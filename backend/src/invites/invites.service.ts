@@ -45,6 +45,14 @@ export class InvitesService {
   }
 
   async checkInviteAndAddUseToInvite(id: string) {
+    const invite = await this.checkInvite(id);
+
+    await this.inviteRepository.update(id, {
+      currentUses: invite.currentUses + 1,
+    });
+  }
+
+  async checkInvite(id: string) {
     const invite = await this.findOne(id);
 
     if (!invite) {
@@ -64,9 +72,7 @@ export class InvitesService {
       );
     }
 
-    await this.inviteRepository.update(id, {
-      currentUses: invite.currentUses + 1,
-    });
+    return invite;
   }
 
   async remove(id: string) {
