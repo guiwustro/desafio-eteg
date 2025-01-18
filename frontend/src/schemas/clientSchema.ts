@@ -1,7 +1,7 @@
 import { cpfValidator } from "@/utils/cpfValidator";
 import { z } from "zod";
 
-export type FormData = z.infer<typeof clientSchema>;
+export type TClientSchema = z.infer<typeof clientSchema>;
 
 export const clientSchema = z.object({
 	name: z
