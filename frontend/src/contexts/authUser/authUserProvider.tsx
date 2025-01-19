@@ -11,6 +11,7 @@ interface IAuthUserProps {
 
 const AuthUserProvider = ({ children }: IAuthUserProps) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [token, setToken] = useState<string>();
 
 	const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ const AuthUserProvider = ({ children }: IAuthUserProps) => {
 			.then((res) => {
 				window.localStorage.setItem("@desafio-eteg-token", res.token);
 				api.defaults.headers.common["Authorization"] = `Bearer ${res.token}`;
-
+				setToken(res.token);
 				setIsLoading(false);
 
 				navigate("/admin/clients", { replace: true });
@@ -35,6 +36,7 @@ const AuthUserProvider = ({ children }: IAuthUserProps) => {
 	const logoutUser = () => {
 		window.localStorage.removeItem("@desafio-eteg-token");
 		api.defaults.headers.common["Authorization"] = null;
+		setToken(undefined);
 		navigate("/login", { replace: true });
 	};
 
@@ -44,6 +46,7 @@ const AuthUserProvider = ({ children }: IAuthUserProps) => {
 				isLoading,
 				loginUser,
 				logoutUser,
+				token,
 			}}
 		>
 			{children}

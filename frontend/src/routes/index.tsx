@@ -6,9 +6,10 @@ import ClientUpdate from "@/pages/admin/clients/update";
 import NewClient from "@/pages/new-client";
 import NotFound from "@/pages/not-found";
 import Login from "@/pages/login";
+import { useAuthUserContext } from "@/contexts/authUser/useAuthUser";
 
 export const AppRoutes = () => {
-	const token = localStorage.getItem("@desafio-eteg-token");
+	const { token } = useAuthUserContext();
 
 	return (
 		<Routes>

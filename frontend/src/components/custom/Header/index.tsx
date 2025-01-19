@@ -18,7 +18,7 @@ const Header = () => {
 						</Link>
 					</li>
 				</ul>
-				<Button onClick={logoutUser} variant="secondary">
+				<Button onClick={() => logoutUser()} variant="secondary">
 					Logout
 				</Button>
 			</nav>

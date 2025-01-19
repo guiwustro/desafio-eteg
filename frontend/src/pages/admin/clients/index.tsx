@@ -36,9 +36,8 @@ const ClientList = () => {
 					type: "error",
 				}
 			);
-		} finally {
-			setIsLoading(false);
 		}
+		setIsLoading(false);
 	};
 
 	const handleNextPage = () => {
