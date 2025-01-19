@@ -1,5 +1,7 @@
 # Desafio ETEG
 
+![alt text](testEteg.gif)
+
 ## Technologies
 
 The project was built using React, Node.js with NestJS and PostgreSQL as the
