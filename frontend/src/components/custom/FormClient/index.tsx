@@ -72,7 +72,7 @@ const FormClient: React.FC<FormProps> = ({
 				type="email"
 				register={register}
 				registerName="email"
-				messageError={errors.name?.message}
+				messageError={errors.email?.message}
 			/>
 
 			<div className="mb-4">
@@ -83,7 +83,9 @@ const FormClient: React.FC<FormProps> = ({
 					id="cpf"
 					mask="999.999.999-99"
 					{...register("cpf")}
-					className="w-full border border-gray-300 p-2 rounded-md focus:outline-none focus:border-primary"
+					className={`w-full border  p-2 rounded-md focus:outline-none focus:border-primary ${
+						errors.cpf?.message ? "border-red-500" : "border-gray-300"
+					}`}
 				/>
 				<FormErrorMessage message={errors.cpf?.message} />
 			</div>
@@ -96,7 +98,11 @@ const FormClient: React.FC<FormProps> = ({
 					name="color"
 					control={control}
 					render={({ field }) => (
-						<CustomSelect value={field.value} onChange={field.onChange} />
+						<CustomSelect
+							value={field.value}
+							onChange={field.onChange}
+							errorMessage={errors.color?.value?.message}
+						/>
 					)}
 				/>
 

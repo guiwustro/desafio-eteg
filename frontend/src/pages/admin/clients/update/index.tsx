@@ -13,22 +13,8 @@ const ClientUpdate = () => {
 	const [client, setClient] = useState<Client | null>(null);
 
 	useEffect(() => {
-		const fetchClient = async () => {
-			if (!id) {
-				navigate("/admin/clients");
-				return;
-			}
-
-			try {
-				const data = await getClient(Number(id));
-				setClient(data);
-			} catch {
-				navigate("/admin/clients");
-			}
-		};
-
 		fetchClient();
-	}, [id, navigate]);
+	}, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const handleUpdate = async (clientData: UpdateClientDto) => {
 		if (!id) return;
@@ -43,6 +29,20 @@ const ClientUpdate = () => {
 					type: "error",
 				});
 			}
+		}
+	};
+
+	const fetchClient = async () => {
+		if (!id) {
+			navigate("/admin/clients");
+			return;
+		}
+
+		try {
+			const data = await getClient(Number(id));
+			setClient(data);
+		} catch {
+			navigate("/admin/clients");
 		}
 	};
 

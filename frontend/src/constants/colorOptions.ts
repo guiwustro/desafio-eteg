@@ -5,7 +5,7 @@ export const colorOptions = [
 	{ value: "#FFFF00", label: "Amarelo" },
 	{ value: "#00FF00", label: "Verde" },
 	{ value: "#0000FF", label: "Azul" },
-	{ value: "#4B0082", label: "Índigo" },
+	{ value: "#4B0082", label: "Anil" },
 	{ value: "#8B00FF", label: "Violeta" },
 ];
 
@@ -15,6 +15,6 @@ export const colorMap: Record<string, string> = {
 	"#FFFF00": "Amarelo",
 	"#00FF00": "Verde",
 	"#0000FF": "Azul",
-	"#4B0082": "Índigo",
+	"#4B0082": "Anil",
 	"#8B00FF": "Violeta",
 };

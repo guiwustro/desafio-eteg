@@ -23,6 +23,8 @@ export const DialogCreateInvite = () => {
 	const [open, setOpen] = useState(false);
 	const [invite, setInvite] = useState<Invite | null>(null);
 	const [showInviteDialog, setShowInviteDialog] = useState(false);
+	const tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);
 
 	const {
 		register,
@@ -41,7 +43,6 @@ export const DialogCreateInvite = () => {
 		setOpen(false);
 		setInvite(createdInvite);
 		const newInviteUrl = `${window.location.origin}/new-client/${createdInvite?.id}`;
-		console.log(newInviteUrl, "new?");
 		navigator.clipboard.writeText(newInviteUrl);
 
 		reset();
@@ -79,6 +80,7 @@ export const DialogCreateInvite = () => {
 							<input
 								type="date"
 								{...register("expirationDate")}
+								min={tomorrow.toISOString().split("T")[0]}
 								className="border border-border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary w-full"
 							/>
 						</div>
@@ -125,25 +127,27 @@ export const DialogCreateInvite = () => {
 			<Dialog open={showInviteDialog} onOpenChange={setShowInviteDialog}>
 				<DialogContent className="sm:max-w-[400px]">
 					<DialogHeader>
-						<DialogTitle className="text-textPrimary">
+						<DialogTitle className="font-bold">
 							Convite Criado com Sucesso!
 						</DialogTitle>
 					</DialogHeader>
 
-					<div className="text-center">
-						<p className="text-textSecondary">
+					<DialogDescription className="text-center">
+						<p className="font-bold">
 							O convite foi gerado e copiado automaticamente para a área de
 							transferência.
 						</p>
 
-						<div className="mt-4 text-left">
+						<div className="mt-2 text-left flex flex-col gap-1">
+							<Link
+								to={`/new-client/${invite?.id}`}
+								target="_blank"
+								className="font-bold text-center text-base"
+							>
+								Link do Convite
+							</Link>{" "}
 							<p>
-								<Link to={`/new-client/${invite?.id}`} target="_blank">
-									Link do Convite
-								</Link>{" "}
-							</p>
-							<p>
-								<strong>Expiração:</strong>{" "}
+								<strong>Data de Expiração:</strong>{" "}
 								{invite?.expirationDate ? invite.expirationDate : "Ilimitado"}
 							</p>
 							<p>
@@ -151,7 +155,7 @@ export const DialogCreateInvite = () => {
 								{invite?.maxUses ? invite.maxUses : "Ilimitado"}
 							</p>
 						</div>
-					</div>
+					</DialogDescription>
 
 					<DialogFooter>
 						<DialogClose asChild>

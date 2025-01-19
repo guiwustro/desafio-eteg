@@ -9,6 +9,7 @@ interface FormGroupProps<T extends FieldValues> {
 	placeholder?: string;
 	messageError?: string;
 	classNameError?: string;
+	autoComplete?: React.HTMLInputAutoCompleteAttribute;
 }
 
 const FormGroup = <T extends FieldValues>({
@@ -19,6 +20,7 @@ const FormGroup = <T extends FieldValues>({
 	placeholder,
 	messageError,
 	classNameError,
+	autoComplete,
 }: FormGroupProps<T>) => {
 	return (
 		<div className="mb-4">
@@ -31,6 +33,7 @@ const FormGroup = <T extends FieldValues>({
 			<input
 				id={registerName}
 				type={type}
+				autoComplete={autoComplete}
 				{...register(registerName)}
 				placeholder={placeholder}
 				className={`mt-1 w-full rounded-md border border-gray-300 px-3 py-2  focus:outline-none ${

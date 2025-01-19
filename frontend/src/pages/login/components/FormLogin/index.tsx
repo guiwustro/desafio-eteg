@@ -29,6 +29,7 @@ export const FormLogin = () => {
 				<FormGroup
 					label="Email"
 					type="email"
+					autoComplete="email"
 					register={register}
 					registerName="email"
 					messageError={errors.email?.message}
@@ -37,6 +38,7 @@ export const FormLogin = () => {
 				<FormGroup
 					label="Senha"
 					type="password"
+					autoComplete="current-password"
 					register={register}
 					registerName="password"
 					messageError={errors.password?.message}

@@ -6,8 +6,8 @@ export type TClientSchema = z.infer<typeof clientSchema>;
 export const clientSchema = z.object({
 	name: z
 		.string()
-		.min(3, "O nome deve ter pelo menos 3 caracteres")
-		.nonempty("Campo obrigatório"),
+		.nonempty("Campo obrigatório")
+		.min(3, "O nome deve ter pelo menos 3 caracteres"),
 	cpf: z
 		.string()
 		.nonempty("Campo obrigatório")
